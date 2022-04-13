@@ -168,14 +168,16 @@ int main() {
 	{
 		if(checkTime() == 1){
             clear_screen();
-
-            // takes in array of characters (can't accept string to buffer)
-            char text[20] = "HOUR COMPLETE \0";
-            // takes in text and row number on the screen
-            LCD_text(text, 3);
-
+            refresh_buffer();
             if (countedTime == 0){ //stop the count organically
+                // takes in array of characters (can't accept string to buffer)
+
+                char text[20] = "HOUR COMPLETE \0";
+                // takes in text and row number on the screen
+                LCD_text(text, 3);
                 int flash = 299;
+                refresh_buffer();
+
                 while (flash > 1) {
                     if (checkTime() == 1){
                         flash--;
@@ -211,7 +213,6 @@ int main() {
                 }
             }
             // cals on LCD to check the buffer and update its screen
-           refresh_buffer();
 		}
 
 		instruction = buttonsCheck();
