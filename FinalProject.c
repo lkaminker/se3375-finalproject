@@ -1,4 +1,6 @@
 #include "address_map_arm.h"
+#include "lcd_driver.h"
+#include "lcd_graphic.h"
 
 /* Our first program!  Watch the blinking light!
 */
@@ -158,10 +160,20 @@ int main() {
     gpio_ptr->data = 0b0000000000;
 
     adc_ptr->ch1 = 0x1;
+    init_spim0();
+    init_lcd();
+
     
     while (1) 
 	{
 		if(checkTime() == 1){
+            clear_screen();
+
+            // takes in array of characters (can't accept string to buffer)
+            char text[20] = "HOUR COMPLETE \0";
+            // takes in text and row number on the screen
+            LCD_text(text, 3);
+
             if (countedTime == 0){ //stop the count organically
                 int flash = 299;
                 while (flash > 1) {
@@ -198,6 +210,8 @@ int main() {
                     countedTime--;
                 }
             }
+            // cals on LCD to check the buffer and update its screen
+           refresh_buffer();
 		}
 
 		instruction = buttonsCheck();
